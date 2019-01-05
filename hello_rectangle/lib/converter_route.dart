@@ -13,7 +13,7 @@ import 'package:hello_rectangle/unit.dart';
 ///
 /// While it is named ConverterRoute, a more apt name would be ConverterScreen,
 /// because it is responsible for the UI at the route's destination.
-class ConverterRoute extends StatelessWidget {
+class ConverterRoute extends StatefulWidget {
   final String name;
   final Color color;
 
@@ -30,10 +30,16 @@ class ConverterRoute extends StatelessWidget {
         assert(color != null),
         assert(units != null);
 
+  createState() => _ConverterRouteState();
+
+}
+
+class _ConverterRouteState extends State<ConverterRoute> {
+
   @override
   Widget build(BuildContext context) {
     // Here is just a placeholder for a list of mock units
-    final unitWidgets = units.map((Unit unit) {
+    final unitWidgets = widget.units.map((Unit unit) {
       // TODO: Set the color for this Container
       return Container(
         margin: EdgeInsets.all(8.0),

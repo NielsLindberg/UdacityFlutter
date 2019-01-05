@@ -20,9 +20,14 @@ import 'package:hello_rectangle/unit.dart';
 
 final _backgroundColor = Colors.green[100];
 
-class CategoryRoute extends StatelessWidget {
-  const CategoryRoute();
+class CategoryRoute extends StatefulWidget {
+  CategoryRoute();
 
+  @override
+  createState() => _CategoryRouteState();
+}
+
+class _CategoryRouteState extends State<CategoryRoute> {
   static const _categoryNames = <String>[
     'Length',
     'Area',
@@ -69,14 +74,14 @@ class CategoryRoute extends StatelessWidget {
     final categories = <Category>[];
 
     for (var i = 0; i < _categoryNames.length; i++) {
-      categories.add(
-        Category(
-            name: _categoryNames[i],
-            color: _baseColors[i],
-            iconLocation: Icons.cake,
-            units: _retrieveUnitList(_categoryNames[i],
-            ),)
-      );
+      categories.add(Category(
+        name: _categoryNames[i],
+        color: _baseColors[i],
+        iconLocation: Icons.cake,
+        units: _retrieveUnitList(
+          _categoryNames[i],
+        ),
+      ));
     }
     // TODO: Create a list view of the Categories
     final listView = Container(
