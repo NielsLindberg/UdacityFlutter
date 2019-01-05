@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hello_rectangle/category.dart';
+import 'package:hello_rectangle/unit.dart';
 
 // TODO: Check if we need to import anything
 
@@ -49,6 +50,16 @@ class CategoryRoute extends StatelessWidget {
         itemCount: categories.length);
   }
 
+  List<Unit> _retrieveUnitList(String categoryName) {
+    return List.generate(10, (int i) {
+      i += 1;
+      return Unit(
+        name: '$categoryName Unit $i',
+        conversion: i.toDouble(),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: Create a list of the eight Categories, using the names and colors
@@ -62,7 +73,9 @@ class CategoryRoute extends StatelessWidget {
         Category(
             name: _categoryNames[i],
             color: _baseColors[i],
-            iconLocation: Icons.cake),
+            iconLocation: Icons.cake,
+            units: _retrieveUnitList(_categoryNames[i],
+            ),)
       );
     }
     // TODO: Create a list view of the Categories

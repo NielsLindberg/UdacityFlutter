@@ -5,6 +5,9 @@
 // To keep your imports tidy, follow the ordering guidelines at
 // https://www.dartlang.org/guides/language/effective-dart/style#ordering
 import 'package:flutter/material.dart';
+import 'package:hello_rectangle/unit.dart';
+import 'package:meta/meta.dart';
+import 'package:hello_rectangle/converter_route.dart';
 
 /// A custom [Category] widget.
 ///
@@ -19,6 +22,7 @@ class Category extends StatelessWidget {
   final String name;
   final ColorSwatch color;
   final IconData iconLocation;
+  final List<Unit> units;
 
   /// Creates a [Category].
   ///
@@ -30,45 +34,75 @@ class Category extends StatelessWidget {
     @required this.name,
     @required this.color,
     @required this.iconLocation,
+    @required this.units,
   })  : assert(name != null),
         assert(color != null),
         assert(iconLocation != null),
+        assert(units != null),
         super(key: key);
+
+  void _navigateToConverter(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+      return Scaffold(
+          appBar: AppBar(
+              elevation: 1.0,
+              title: Text(
+                name,
+                style: Theme.of(context).textTheme.display1,
+              ),
+              centerTitle: true,
+              backgroundColor: color),
+          body: ConverterRoute(
+            color: color,
+            name: name,
+            units: units,
+          ));
+    }));
+  }
 
   /// Builds a custom widget that shows [Category] information.
   ///
   /// This information includes the icon, name, and color for the [Category].
-  @override
+
   // This `context` parameter describes the location of this widget in the
   // widget tree. It can be used for obtaining Theme data from the nearest
   // Theme ancestor in the tree. Below, we obtain the display1 text theme.
   // See https://docs.flutter.io/flutter/material/Theme-class.html
+  @override
   Widget build(BuildContext context) {
     // TODO: Build the custom widget here, referring to the Specs.
     assert(debugCheckHasMaterial(context));
     return Material(
-        color: Colors.transparent,
-        child: Container(
-            height: _rowHeight,
-            child: InkWell(
-                borderRadius: _borderRadius,
-                highlightColor: color[50],
-                splashColor: color[100],
-                onTap: () {
-                  print('I was tapped!');
-                },
-                child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.only(right: 16.0),
-                              child: Icon(iconLocation, size: 60.0)),
-                          Center(
-                              child: Text(name,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.headline))
-                        ])))));
+      color: Colors.transparent,
+      child: Container(
+        height: _rowHeight,
+        child: InkWell(
+          borderRadius: _borderRadius,
+          highlightColor: color[50],
+          splashColor: color[100],
+          onTap: () => _navigateToConverter(context),
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Icon(iconLocation, size: 60.0),
+                ),
+                Center(
+                  child: Text(
+                    name,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
