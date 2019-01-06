@@ -5,7 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'package:hello_rectangle/unit.dart';
+import 'unit.dart';
+import 'category.dart';
 
 /// Converter screen where users can input amounts to convert.
 ///
@@ -16,27 +17,20 @@ import 'package:hello_rectangle/unit.dart';
 
 const _padding = EdgeInsets.all(16.0);
 
-class ConverterRoute extends StatefulWidget {
-  final String name;
-  final Color color;
-
-  /// Units for this [Category].
-  final List<Unit> units;
+class UnitConverter extends StatefulWidget {
+  final Category category;
 
   /// This [ConverterRoute] requires the name, color, and units to not be null.
   // TODO: Pass in the [Category]'s name and color
-  const ConverterRoute({
-    @required this.name,
-    @required this.color,
-    @required this.units,
-  })  : assert(name != null),
-        assert(color != null),
-        assert(units != null);
+  const UnitConverter({
+    @required this.category,
+  }) : assert(category != null);
 
-  createState() => _ConverterRouteState();
+  @override
+  _UnitConverterState createState() => _UnitConverterState();
 }
 
-class _ConverterRouteState extends State<ConverterRoute> {
+class _UnitConverterState extends State<UnitConverter> {
   Unit _fromValue;
   Unit _toValue;
   double _inputValue;
@@ -53,7 +47,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   void _createDropdownMenuItems() {
     var newItems = <DropdownMenuItem>[];
-    for (var unit in widget.units) {
+    for (var unit in widget.category.units) {
       newItems.add(DropdownMenuItem(
         value: unit.name,
         child: Container(
@@ -71,13 +65,13 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   void _setDefaults() {
     setState(() {
-      _fromValue = widget.units[0];
-      _toValue = widget.units[1];
+      _fromValue = widget.category.units[0];
+      _toValue = widget.category.units[1];
     });
   }
 
   Unit _getUnit(String unitName) {
-    return widget.units.firstWhere((Unit unit) {
+    return widget.category.units.firstWhere((Unit unit) {
       return unit.name == unitName;
     }, orElse: null);
   }
