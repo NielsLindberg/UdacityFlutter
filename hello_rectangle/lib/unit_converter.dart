@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'dart:math' as math;
 
 import 'unit.dart';
 import 'category.dart';
@@ -168,7 +169,7 @@ class _UnitConverterState extends State<UnitConverter> {
     final input = Padding(
       padding: _padding,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextField(
             style: Theme.of(context).textTheme.display1,
@@ -188,18 +189,23 @@ class _UnitConverterState extends State<UnitConverter> {
       ),
     );
 
+    int rotate =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 0 : 180;
     final arrows = RotatedBox(
       quarterTurns: 1,
-      child: Icon(
-        Icons.compare_arrows,
-        size: 40.0,
-      ),
+      child: Transform(
+          transform: Matrix4.rotationZ(rotate * math.pi / 360),
+          alignment: FractionalOffset.center,
+          child: Icon(
+            Icons.compare_arrows,
+            size: 40.0,
+          )),
     );
 
     final output = Padding(
       padding: _padding,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InputDecorator(
             child: Text(
@@ -219,14 +225,24 @@ class _UnitConverterState extends State<UnitConverter> {
       ),
     );
 
-    final converter = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        input,
-        arrows,
-        output,
-      ],
-    );
+    var converter;
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      converter = ListView(
+        children: [
+          input,
+          arrows,
+          output,
+        ],
+      );
+    } else {
+      converter = Row(
+        children: [
+          Expanded(flex: 1, child: input),
+          Expanded(flex: 1, child: arrows),
+          Expanded(flex: 1, child: output),
+        ],
+      );
+    }
 
     return Padding(
       padding: _padding,
