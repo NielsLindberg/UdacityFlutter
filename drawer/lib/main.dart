@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
+import 'drawer_nav.dart';
 
 void main() => runApp(MyApp());
 
@@ -65,48 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      drawer: Drawer(
-          child: Container(
-              padding: EdgeInsets.zero,
-              color: Colors.blueGrey[900],
-              child: ListView(children: <Widget>[
-                DrawerHeader(
-                  child: Text('Drawer Header'),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment(0.0,
-                          0.0), // 10% of the width, so there are ten blinds.
-                      colors: [
-                        Colors.deepOrange,
-                        Colors.pinkAccent
-                      ], // whitish to gray
-                      tileMode: TileMode
-                          .mirror, // repeats the gradient over the canvas
-                    ),
-                  ),
-                ),
-                ListTile(
-                    title: Text('Item 1'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    }),
-                ListTile(
-                    title: Text('Item 2'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    }),
-                ListTile(
-                    title: Text('Item 3'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    }),
-                ListTile(
-                    title: Text('Item 4'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    })
-              ]))),
+      drawer: DrawerNav(),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
